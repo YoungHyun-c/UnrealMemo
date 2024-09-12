@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Question">
+      <UniqueIdentifier>{c8d2a21a-77dc-4a80-979d-acc3b8cbc36a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CodingInterview">
+      <UniqueIdentifier>{b90c0925-b8e6-4a35-bef4-6c8b11bc3c54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Work">
+      <UniqueIdentifier>{967e9163-314d-497b-8504-35961744616b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="UnrealMain.cpp">
+      <Filter>Question</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeWork.cpp">
+      <Filter>Work</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\CodingInterview\CodingInterview.txt">
+      <Filter>CodingInterview</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="소스.json">
+      <Filter>Question</Filter>
+    </None>
+  </ItemGroup>
+</Project>
