@@ -910,6 +910,23 @@ Command LineInterface, (Text, Texture UI), Graphic
 */
 #pragma endregion
 
+#pragma region 9 / 26
+/*
+슬레이트는 픽셀 구조를 받아온다.
+
+프레넬이란 화각 (반사에 따라 그려질 그림)
+Normal(법선 벡터) -> 카메라로 직선 -> 출력 값 0
+ㄴ 프레넬 0
+ 법선 -> 카메라 수직 -> 최대 1
+ㄴ 최대치 프레넬
+Fresnel
+1. Exponentln (이펙트 감쇠)
+2. BaseReflectFractionln (굴절율)
+3. Normal
+
+*/
+#pragma endregion
+
 
 
 #pragma region
