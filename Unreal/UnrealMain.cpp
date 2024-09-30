@@ -927,6 +927,126 @@ Fresnel
 */
 #pragma endregion
 
+#pragma region 9 / 30
+/*
+
+▶ 트랜스폼
+- 트랜스폼을 얘기하면 보통 이동 / 회전 / 스케일링을 뜻한다.
+
+- 사용하는 방법은 크게 2가지
+ㄴ 1. 함수를 통한 접근
+ ㄴ 확장성은 줄어들지만 연산 및 메모리 사용량을 줄일 수 있다.
+ㄴ 2. 프로퍼티를 접근 (Get / Set ) => 문법화 해놓은 걸 프로퍼티라고 부른다.
+ ㄴ 확장성이 좋고 유지보수에 유리할 수 있지만 연산 및 메모리 사용량이 올라간다.
+
+▷ 회전 (1~3번은 공통된 속성)
+1. transform.rotate
+ㄴ 오브젝트 회전 (가상 축)
+
+2. transform.rotateAround
+ㄴ 기준 회전
+
+3. transform.quaternion
+ㄴ 복소수 -> 짐벌락 현상을 해결하기 위해 등장.
+ㄴ 스칼라를 통한 4개의 성분을 통해 각 축을 돌리는 개념. (x, y, z, w)
+
+4. transform.Euler
+ㄴ 오일러 -> 수학자 -> 회전 기법 (세축이 독립적으로 회전)
+ㄴ Fixed Angle(Roll, Pitch, Yaw) => (x, y, z)
+ㄴ 오일러 각도는 회전한 축을 기준으로 다음 회전을 한다는 점이 고정 각도와의 차이점이다.
+
+◆ 짐벌락 : x , y , z 순으로 회전을 한다고 가정을 하면 y축 회전에 의해 이전에 x 축으로 회전했던 축과 z축이 같아 지는 현상.
+-> 이걸 해결하기 위해 쿼터니언을 사용하고, 사원수를 이용한다.
+
+▷ 벡터의 정규화
+-> 벡터는 크기와 방향을 가진 데이터 타입.
+ㄴ 정규화 : 각 축의 크기가 1인 벡터 (단위 벡터)
+
+- 엔진에서 제공하는 정규화 벡터 (그래픽에서와, 언리얼에서 제공하는 Vector는 다르게 되어있다)
+- Vector(1, 0, 0)
+ ㄴ Vector3.right (언리얼은 Forward)
+- Vector(-1, 0, 0)
+ ㄴ Vector3.left
+
+- Vector(0, 1, 0)
+ ㄴ Vector3.up
+- Vector(0, -1, 0)
+ ㄴ Vector3.down
+
+- Vector(0, 0, 1)
+ ㄴ vector3.forward
+- Vector(0, 0, -1)
+ ㄴ Vector3.back
+
+- Vector(0, 0, 0)
+ㄴ Vector3.zero (원점)
+- Vector(1, 1, 1)
+ㄴ Vector3.one (원점)
+
+- 클래스 멤버
+
+- Vector.Dot(A, B) : A벡터와 B벡터의 내적 결과
+- Vector.Cross(A, B) : A벡터와 B벡터의 외적 결과
+- Vector.Distance(A, B) : A벡터와 B 벡터의 거리
+- Vector.Angle(A, B) : A 벡터와 B 벡터의 각차를 (Degree)로 알려준다.
+
+- 인스턴스 멤버
+
+- Vector.Normalize() : 정규화 시켜주는 함수
+- Vector.Magnitude() : 벡터의 길이 알려주는 프로퍼티 (캐릭터가 움직였는지 확인할 때 주로 쓴다)
+- Vector.SqrMagnitude() : 길이 제곱 -> Sqr -> 연산 안함 -> 기본적으로 빠름
+
+ㆍ GetAxis vs GetAxisRaw
+
+- 데드존
+
+- GetAxis : 실수 ( -1.0f ~ 1.0f) -> 부드러운 이동에 적합
+- GetAxisRaw : 정수 (-1, 0, 1) -> 즉각적인 반응
+
+▶ 트랜스폼 (이동)
+- 오브젝트에 트랜스폼을 적용할 때 고려할건 크게 5가지만 기억하면 된다.
+ㄴ 1. 부모 기준? / 내 기준? => 계층 구조
+ㄴ 2. 로컬? / 월드?
+ㄴ 3. 단발성인지? / 지속성인지? => 변이량 누적 여부
+ㄴ 4. 함수를 사용할건지? / 프로퍼티를 사용할건지? / 객체를 찾고 컴포넌트 붙일건지?
+ㄴ 5. 어떤 이벤트로 처리할건지?
+
+EX :
+transform.RelativePosiion = new Vector(0.0f, 5.0f, 0.0f);
+this.transform.WorldTranslate(new Vector3(0.0f, 5.0f, 0.0f);
+
+- 향상된 입력 로컬
+- 크게 4가지만 기억하면 OK
+
+1. Input Action
+ㄴ 액션 할당
+
+2. Input Mapping Context
+ㄴ 만들어 둔 입력 값 -> 인풋 액션과 바인딩 처리를 하겠다.
+
+3. Modifier
+ㄴ 컨버팅
+ㄴ EX : AD / WS -> X / Y  실제 값으로 컨버팅한다.
+
+4. Trigger (컴포넌트?)
+ㄴ X / Y => ?
+
+FMOD는 3개의 시스템을 사용하고있다.
+System
+Sound
+Channel
+사운드 <-> 채널 (1대1 매칭이 전제)
+라이브러리 보는걸 추천. FMOD Engine HPP 형태로 되어있을것.
+
+카오스 디스트럭션 (문이 뿌셔질때 파편으로 쪼개지는 것)
+-> 매쉬를 쪼개놓는 것.
+최소와 최대 보로노이값을 서로 맞춰야 한다.
+매쉬보다 많은 값을 넣지 않아야 원본을 보존한채로 쪼갤 수 있다.
+
+마스터필드 -> 같은 공간에 있는 것이 아닌
+
+*/
+#pragma endregion
 
 
 #pragma region
