@@ -1113,6 +1113,27 @@ BehaviorTree 에서
 -> 스트레이핑 허용 -> 옆으로 걷는 것 허용
 -> 블랙보드 키 -> 내가 지정한 포인트로 설정
 
+언리얼 AI Enemy만들기
+-> 맵에 NavMeshBoundsVolume 깔기 맵 모든 발판에 적용 되도록 크기 조정.
+-> 프로젝트 세팅 -> 네비게이션 매쉬 -> 런타임 생성 -> Dynamic
+-> Lesson에서 Enemy폴더 만들어서 4가지 생성
+1. BE_EnemyBlackBoard -> 우클릭 -> 인공지능 -> blackBoard. -> 안에서 +새 키 -> 이름은 PatrolPoint -> 엔트리 설명 -> PatrolPoint_BP,
+-> 키 타입 오브젝트 -> 베이스 클래스 -> Actor로 지정. 저장
+2. BT_EnemyBehaviorTree 루트 -> select -> sequence(이름을 Move To Patrol로 만듬) -> Move To(Patrol Key설정), Wait 생성
+-> 루트가 BE_EnemyBlackBoard로 되어있는지 확인. 저장
+3. EnemyAIController -> 우클릭 -> 블루프린트 -> 검색창에 AIController -> 젤 상위 AIController클릭 생성 -> BeginPlay 
+-> RunBehaviorTree(BT_EnemyBehavior로 설정)
+
+4. BP_EnemyCharacter
+-> 변수 엑터 PatrolPointA, PatrolPointB, CurrentTarget 3개 만듬.
+-> 이벤트 그래프 -> GetBlackBoard 불러오기, Target은 Ref Self -> Set Value as Object -> 만들기
+-> KeyName -> MakeLiteralName -> Value를 blackBoard에서 만든 변수명(PatrolPoint)
+-> ObjectValue -> CurrentTarget
+ActorBeginOverlap이벤트 생성 -> Branch -> Condition -> PatrolPoint A == OtherActor 같은지,
+True -> Set (CurrentTarget) Target은 PatrolPointB로 -> 흐름은 SetValueasObject로
+false-> Branch -> Condition -> PatrolPointb == OtherActor 같은지 -> Set (CurrentTarget) Target은 PatrolPointA -> 흐름은 SetValueasObject로
+
+
 */
 #pragma endregion
 
