@@ -1137,6 +1137,24 @@ false-> Branch -> Condition -> PatrolPointb == OtherActor 같은지 -> Set (Current
 */
 #pragma endregion
 
+#pragma region 10/4
+/*
+- 폰센싱 vs 퍼셉션
+
+▶ 폰센싱 (포폴할땐 주로 쓴다)
+
+- 기본적인 이벤트외에 추가적인 이벤트 트리거를 제공하는 컴포넌트
+ㄴ 폰의 감각 컴포넌트 (감가 + 기능에 대한 설정값들이 이 컴포넌트에 들어와 있다.)
+
+- 커스텀 기반으로 할때 주로 사용하는 객체
+
+퍼셉션은 EQS를 쓴다는 전제하에 고려한다.
+
+
+
+
+*/
+#pragma endregion
 
 
 #pragma region
